@@ -1,0 +1,42 @@
+<div class="search-grid">
+  <mat-card class="card">
+    <mat-card-title>Search</mat-card-title>
+    <mat-card-subtitle>Enter a jobtitle for more insights</mat-card-subtitle>
+    <mat-card-content>
+      <form [formGroup]="searchForm">
+        <mat-form-field>
+          <mat-label matNativeControl for="query">Job Title</mat-label>
+          <input
+            matNativeControl
+            type="text"
+            id="query"
+            formControlName="query"
+          />
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label for="occupation">Occupation</mat-label>
+          <mat-select id="occupation">
+            <mat-option value="fg7B_yov_smw"
+              >Systemutvecklare/Programmerare</mat-option
+            >
+            <mat-option value="7wdX_4rv_33z">Backend-utvecklare</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <button mat-button color="primary" (click)="onSearch()">Search</button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+  <mat-card class="card">
+    <mat-card-title>Insights</mat-card-title>
+    <mat-card-subtitle>Explore stats and skill requirements</mat-card-subtitle>
+    <mat-card-content>
+      <p>Coming soon...</p>
+    </mat-card-content>
+  </mat-card>
+</div>
+<div class="ad-grid">
+  <mat-card *ngFor="let ad of jobads" (click)="openJobAdDialog(ad.id)">{{
+    ad.headline
+  }}</mat-card>
+</div>

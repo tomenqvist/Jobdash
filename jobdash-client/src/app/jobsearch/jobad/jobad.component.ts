@@ -23,6 +23,7 @@ export class JobadComponent implements OnInit {
       this.searchService.getJobAd(this.id).subscribe((response) => {
         console.log(response);
         this.ad = response;
+        console.log('AD: ', this.ad);
         this.ad_text = this.ad.description.text_formatted;
         console.log(this.ad_text);
       });
