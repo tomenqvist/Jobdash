@@ -1,0 +1,63 @@
+.jobad-card {
+  padding: 25px;
+  height: 100%;
+}
+
+.jobad-footer {
+  display: flex;
+  flex-direction: column;
+}
+
+.jobad-footer img {
+  /* max-height: 10%; */
+}
+
+.jobad-footer a {
+  margin-top: 10px;
+  font-size: large;
+}
+
+.jobad-content {
+  padding: 25px;
+}
+
+.jobad-text {
+  font-size: 1rem;
+  white-space: pre-line;
+  overflow: auto;
+  max-height: 55vh;
+}
+
+button {
+  margin: 0 0.5rem;
+}
+
+button a {
+  color: white;
+}
+
+.ad-header {
+  background-color: #673ab7;
+  padding: 1rem;
+  color: white;
+}
+
+.employer-link {
+  color: rgb(255, 255, 255);
+  font-style: normal;
+  font-size: 1rem;
+  text-decoration: none;
+}
+.employer-link:hover {
+  color: #e0d5f4;
+  text-decoration: underline;
+}
+
+.card-content {
+  margin-bottom: 20px;
+}
+@media (min-width: 1000px) {
+  .jobad-text {
+    padding: 0 15%;
+  }
+}

@@ -1,0 +1,30 @@
+<mat-card-header class="ad-header">
+  <mat-card-title>{{ ad.headline }}</mat-card-title>
+  <mat-card-subtitle
+    ><a href="{{ ad.employer.url }}" target="_blank" class="employer-link">
+      {{ ad.employer.workplace }}</a
+    ></mat-card-subtitle
+  >
+</mat-card-header>
+<mat-card class="card jobad-card">
+  <mat-card-content class="jobad-content">
+    <p class="jobad-text" [innerHTML]="this.ad_text"></p>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-raised-button color="warn">
+      <a href="{{ ad.application_details.url }}" target="_blank">Ansök</a>
+    </button>
+    <button mat-raised-button color="primary">
+      <a href="{{ ad.webpage_url }}" target="_blank">Gå till Platsbanken</a>
+    </button>
+  </mat-card-actions>
+  <mat-card-footer class="jobad-footer">
+    <a href="{{ ad.employer.url }}" target="_blank">
+      <img
+        *ngIf="ad.logo_url"
+        src="{{ ad.logo_url }}"
+        alt="Logotyp för {{ ad.employer.workplace }}"
+      />
+    </a>
+  </mat-card-footer>
+</mat-card>
