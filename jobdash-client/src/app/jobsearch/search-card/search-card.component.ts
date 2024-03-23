@@ -13,6 +13,7 @@ export class SearchCardComponent {
   searchForm = new FormGroup({
     query: new FormControl(''),
   });
+  Math: any;
 
   constructor(
     private searchService: SearchService,
@@ -22,28 +23,56 @@ export class SearchCardComponent {
   jobads = new Array<any>();
 
   onSearch(): void {
+    this.jobads = [];
     const queryControl = this.searchForm.get('query');
     if (queryControl) {
       const query_text = queryControl.value ?? '';
       console.log(query_text);
-      this.searchService.getJobs(query_text).subscribe((response) => {
+      let offset = 0;
+      let numberOfHits = 0;
+      this.searchService
+        .getAllJobs(query_text, offset)
+        .subscribe((response) => {
+          numberOfHits = response.positions;
+          console.log('numberOfHits: ' + numberOfHits);
+
+          while (offset < numberOfHits) {
+            this.searchService
+              .getAllJobs(query_text, offset)
+              .subscribe((response) => {
+                this.jobads = this.jobads.concat(response.hits);
+              });
+            offset += 100;
+            console.log('offset: ' + offset);
+          }
+        });
+    }
+  }
+
+  onSearch_backup(): void {
+    const queryControl = this.searchForm.get('query');
+    if (queryControl) {
+      const query_text = queryControl.value ?? '';
+      console.log(query_text);
+
+      this.searchService.getAllJobs(query_text, 0).subscribe((response) => {
         this.jobads = response.hits;
-        console.log(response.positions);
-        console.log(response);
         console.log(this.jobads);
+        //console.log(response.positions);
+        //console.log(response);
+        //console.log(this.jobads);
 
         this.jobads.sort((a, b) => {
           // Convert publication_date strings to Date objects for comparison
-          let dateA = new Date(a.publication_date);
-          let dateB = new Date(b.publication_date);
+          let dateA = new Date(a.application_deadline);
+          let dateB = new Date(b.application_deadline);
 
           // Compare the dates
-          return +dateB - +dateA;
+          return +dateA - +dateB;
         });
       });
     }
   }
-
   openJobAdDialog(id: string): void {
     const dialogRef = this.jobadDialog.open(JobadComponent, {
       data: { id: id },

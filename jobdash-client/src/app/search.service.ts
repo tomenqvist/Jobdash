@@ -20,4 +20,17 @@ export class SearchService {
     const url = 'https://jobsearch.api.jobtechdev.se/ad/' + id;
     return this.http.get(url);
   }
+
+  public getAllJobs(query: string, offset: number): Observable<any> {
+    const url =
+      'https://jobsearch.api.jobtechdev.se/search?q=' +
+      query.toLowerCase() +
+      '&offset=' +
+      offset +
+      '&limit=100&request-timeout=300';
+    console.log(url);
+    const res = this.http.get(url);
+    console.log(res);
+    return res;
+  }
 }
