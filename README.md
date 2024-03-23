@@ -1,1 +1,1 @@
-Jobdash is an interface for the API [JobSearch](https://jobtechdev.se/sv/components/jobsearch)
+Jobdash is an interface for the API [JobSearch](https://jobtechdev.se/sv/components/jobsearch) focusing on providing statistics on searched queries regarding location, occupation label and skillsets required.
