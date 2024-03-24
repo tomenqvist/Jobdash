@@ -12,6 +12,8 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTabsModule } from '@angular/material/tabs';
 
+import { BaseChartDirective } from 'ng2-charts';
+
 @NgModule({
   declarations: [SearchCardComponent, JobadComponent],
   imports: [
@@ -25,6 +27,7 @@ import { MatTabsModule } from '@angular/material/tabs';
     MatGridListModule,
     MatDialogModule,
     MatTabsModule,
+    BaseChartDirective,
   ],
   exports: [SearchCardComponent],
 })

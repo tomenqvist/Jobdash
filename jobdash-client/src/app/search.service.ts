@@ -25,7 +25,7 @@ export class SearchService {
       occupation_text = '?occupation-name=' + occupation;
     }
 
-    console.log('Occupation: ' + occupation_text);
+    //console.log('Occupation: ' + occupation_text);
 
     url =
       'https://jobsearch.api.jobtechdev.se/search' +
@@ -35,8 +35,8 @@ export class SearchService {
       offset +
       '&limit=100&request-timeout=300';
 
-    console.log(url);
-    console.log('Occupation: ' + occupation_text);
+    //console.log(url);
+    //console.log('Occupation: ' + occupation_text);
     const res = this.http.get(url);
     //console.log(res);
     return res;
@@ -44,9 +44,5 @@ export class SearchService {
 
   readJsonFile(): Observable<any> {
     return this.http.get('assets/github_repos_list.json');
-  }
-
-  getAllOccupations(): Observable<any> {
-    return this.http.get('assets/occupations.json');
   }
 }

@@ -4,7 +4,8 @@
     ><a href="{{ ad.employer.url }}" target="_blank" class="employer-link">
       {{ ad.employer.workplace }}</a
     ></mat-card-subtitle
-  ><mat-card-subtitle class="occupation-label">{{
+  >
+  <mat-card-subtitle class="occupation-label">{{
     ad.occupation.label
   }}</mat-card-subtitle>
 </mat-card-header>
@@ -12,13 +13,25 @@
   <mat-card-content class="jobad-content">
     <p class="jobad-text" [innerHTML]="this.ad_text"></p>
   </mat-card-content>
-  <mat-card-actions>
-    <button mat-raised-button color="warn">
-      <a href="{{ ad.application_details.url }}" target="_blank">Ansök</a>
-    </button>
-    <button mat-raised-button color="primary">
-      <a href="{{ ad.webpage_url }}" target="_blank">Gå till Platsbanken</a>
-    </button>
+  <mat-card-actions class="action-buttons">
+    <div class="proceed" class="apply-btns">
+      <button mat-raised-button class="apply">
+        <a href="{{ ad.application_details.url }}" target="_blank">Ansök</a>
+      </button>
+      <button mat-raised-button color="primary">
+        <a href="{{ ad.webpage_url }}" target="_blank">Gå till Platsbanken</a>
+      </button>
+    </div>
+    <div class="cancel-btns">
+      <button
+        mat-raised-button
+        color="warn"
+        (click)="closeDialog()"
+        class="close-btn"
+      >
+        Stäng
+      </button>
+    </div>
   </mat-card-actions>
   <mat-card-footer class="jobad-footer">
     <a href="{{ ad.employer.url }}" target="_blank">
