@@ -36,21 +36,32 @@
       <mat-tab-group>
         <mat-tab label="Plats">
           <canvas
+            class="chart"
+            baseChart
+            width="200px"
+            height="200px"
+            type="pie"
+            [data]="locationData"
+          ></canvas>
+        </mat-tab>
+        <mat-tab label="Jobbtitel">
+          <canvas
+            class="chart"
             baseChart
             width="400px"
             height="200px"
             type="bar"
-            [data]="locationData"
+            [data]="occupationData"
           ></canvas>
         </mat-tab>
-        <mat-tab label="Jobbtitel"> Kommer snart... </mat-tab>
         <mat-tab label="Kompetenser">
           <canvas
+            class="chart"
             baseChart
             width="400px"
             height="200px"
-            type="line"
-            [data]="locationData"
+            type="bar"
+            [data]="skillsData"
           ></canvas>
         </mat-tab>
       </mat-tab-group>

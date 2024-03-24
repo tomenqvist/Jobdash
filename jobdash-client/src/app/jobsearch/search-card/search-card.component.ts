@@ -3,13 +3,15 @@ import { SearchService } from '../../search.service';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { JobadComponent } from '../jobad/jobad.component';
 import { occupation_map } from './occupations';
+import { skills } from './skills';
 
 //MD imports
-
-import { MatTabsModule } from '@angular/material/tabs';
 import { MatDialog } from '@angular/material/dialog';
-type LocationLAbel = string;
-type LocationValue = number;
+
+// Types for the data
+type DataLabel = string;
+type DataValue = number;
+
 @Component({
   selector: 'app-search-card',
   templateUrl: './search-card.component.html',
@@ -27,31 +29,50 @@ export class SearchCardComponent implements OnInit {
     private jobadDialog: MatDialog
   ) {}
   jobads = new Array<any>();
-  lang_list = new Array<any>();
+  skills = skills;
   occupations = new Array<any>();
   locationMap = new Map();
+  occupationMap = new Map();
+  skillsMap = new Map();
 
   locationData = {
-    labels: [] as LocationLAbel[],
+    labels: [] as DataLabel[],
     datasets: [
       {
-        data: [] as LocationValue[],
-        label: 'Series A',
+        data: [] as DataValue[],
+        label: 'Ort',
+      },
+    ],
+  };
+
+  occupationData = {
+    labels: [] as DataLabel[],
+    datasets: [
+      {
+        data: [] as DataValue[],
+        label: 'Jobbtitel',
+      },
+    ],
+  };
+
+  skillsData = {
+    labels: [] as DataLabel[],
+    datasets: [
+      {
+        data: [] as DataValue[],
+        label: 'Skills',
       },
     ],
   };
 
   ngOnInit(): void {
-    this.searchService.readJsonFile().subscribe((response) => {
-      this.lang_list = response;
-    });
-    console.log(this.lang_list);
     this.occupations = Object.entries(occupation_map).map(
       ([label, concept_id]) => ({
         label,
         concept_id,
       })
     );
+    console.log(this.skills);
   }
 
   onSearch(): void {
@@ -76,11 +97,19 @@ export class SearchCardComponent implements OnInit {
               .getAllJobs(query_text, offset, occupation_id)
               .subscribe((response) => {
                 this.jobads = this.jobads.concat(response.hits);
+                // Empty the maps
                 this.locationMap = new Map();
-                // Save region and there count in a map
+                this.occupationMap = new Map();
+                this.skillsMap = new Map();
+                // Save region and their count in a map
                 if (offset >= numberOfHits) {
                   for (let i = 0; i < this.jobads.length; i++) {
                     let region = this.jobads[i].workplace_address.region;
+                    let occupation =
+                      this.jobads[i].occupation.label.slice(0, 15) + '...';
+                    let adtext = this.jobads[i].description.text.toLowerCase();
+                    //console.log(adtext);
+                    // REGION
                     if (region === undefined || region === null) {
                       region = 'Okänd ort';
                     }
@@ -92,19 +121,40 @@ export class SearchCardComponent implements OnInit {
                     } else {
                       this.locationMap.set(region, 1);
                     }
-                    //console.log(this.jobads[i].workplace_address.region);
+
+                    // OCCUPATION
+                    if (this.occupationMap.has(occupation)) {
+                      this.occupationMap.set(
+                        occupation,
+                        this.occupationMap.get(occupation) + 1
+                      );
+                    } else {
+                      this.occupationMap.set(occupation, 1);
+                    }
+
+                    // SKILLS
+                  }
+                  for (let skill of this.skills) {
+                    let skillCount = 0;
+                    for (let i = 0; i < this.jobads.length; i++) {
+                      let adtext =
+                        this.jobads[i].description.text.toLowerCase();
+                      if (adtext.includes(skill)) {
+                        skillCount++;
+                      }
+                    }
+                    this.skillsMap.set(skill, skillCount);
                   }
 
-                  console.log('Sista loopen', offset);
-                  console.log(this.locationMap);
-                  // this.locationData.labels = Array.from(
-                  //   this.locationMap.keys()
-                  // );
+                  //console.log('Sista loopen', offset);
+                  //console.log(this.occupationMap);
+                  //console.log(this.skillsMap);
                 }
                 this.updateLocationData();
+                this.updateOccupationData();
+                this.updateSkillsData();
               });
             offset += 100;
-            //console.log('offset: ' + offset);
           }
         });
     }
@@ -131,6 +181,51 @@ export class SearchCardComponent implements OnInit {
       ],
     };
     console.log(this.locationData);
+  }
+
+  updateOccupationData(): void {
+    let sortedArray = Array.from(this.occupationMap.entries());
+    sortedArray.sort((a, b) => b[1] - a[1]);
+    let sortedMap = new Map(sortedArray.slice(0, 10));
+    let length = sortedMap.size;
+    let newLabels = Array.from(sortedMap.keys());
+    let newData = Array.from(sortedMap.values());
+    if (sortedMap.size === 0) {
+      newLabels = [];
+      newData = [];
+    }
+    this.occupationData = {
+      labels: newLabels,
+      datasets: [
+        {
+          data: newData,
+          label: 'Top ' + length + ' yrken',
+        },
+      ],
+    };
+  }
+
+  updateSkillsData(): void {
+    let sortedArray = Array.from(this.skillsMap.entries());
+    sortedArray.sort((a, b) => b[1] - a[1]);
+    let sortedMap = new Map(sortedArray.slice(0, 10));
+    //console.log(sortedMap);
+    let length = sortedMap.size;
+    let newLabels = Array.from(sortedMap.keys());
+    let newData = Array.from(sortedMap.values());
+    if (sortedMap.size === 0) {
+      newLabels = [];
+      newData = [];
+    }
+    this.skillsData = {
+      labels: newLabels,
+      datasets: [
+        {
+          data: newData,
+          label: 'Top ' + length + ' skills',
+        },
+      ],
+    };
   }
 
   openJobAdDialog(id: string): void {
