@@ -61,3 +61,7 @@ button a {
     padding: 0 15%;
   }
 }
+
+.occupation-label {
+  color: rgb(244, 195, 71);
+}

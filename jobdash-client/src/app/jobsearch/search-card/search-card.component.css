@@ -28,6 +28,7 @@ p {
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   grid-gap: 20px;
   margin: 20px;
+  margin-bottom: 70px;
 }
 .card-top {
   display: grid;
@@ -37,13 +38,29 @@ p {
   font-size: 0.8rem;
 }
 .rel {
+  color: gray;
   padding: 0;
   margin: 0;
-  background: red;
   margin-right: 0;
   text-align: right;
+}
+.rel-high {
+  color: green;
+}
+.rel-mid {
+  color: orange;
+}
+.rel-low {
+  color: red;
 }
 .deadline {
   padding: 0;
   margin: 0;
+  color: grey;
+}
+
+.ad-card:hover {
+  background: #d1bce932;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }

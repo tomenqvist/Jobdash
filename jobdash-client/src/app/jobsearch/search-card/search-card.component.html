@@ -1,7 +1,7 @@
 <div class="search-grid">
   <mat-card class="card">
     <mat-card-title>Sök jobb</mat-card-title>
-    <mat-card-subtitle>Enter a jobtitle for more insights</mat-card-subtitle>
+    <mat-card-subtitle>Sök för mer insikter</mat-card-subtitle>
     <mat-card-content>
       <form [formGroup]="searchForm">
         <mat-form-field>
@@ -16,11 +16,13 @@
 
         <mat-form-field>
           <mat-label for="occupation">Jobbtitel</mat-label>
-          <mat-select id="occupation">
-            <mat-option value="fg7B_yov_smw"
-              >Systemutvecklare/Programmerare</mat-option
+          <mat-select id="occupation" formControlName="occupation">
+            <mat-option value="">-</mat-option>
+            <mat-option
+              *ngFor="let occupation of occupations"
+              [value]="occupation.name"
+              >{{ occupation.id }}</mat-option
             >
-            <mat-option value="7wdX_4rv_33z">Backend-utvecklare</mat-option>
           </mat-select>
         </mat-form-field>
         <button mat-button color="primary" (click)="onSearch()">Sök</button>
@@ -31,7 +33,11 @@
     <mat-card-title>Insikter</mat-card-title>
     <mat-card-subtitle></mat-card-subtitle>
     <mat-card-content>
-      <p>Coming soon...</p>
+      <mat-tab-group>
+        <mat-tab label="Plats"> Kommer snart... </mat-tab>
+        <mat-tab label="Jobbtitel"> Kommer snart... </mat-tab>
+        <mat-tab label="Kompetenser"> Kommer snart.. </mat-tab>
+      </mat-tab-group>
     </mat-card-content>
   </mat-card>
 </div>
@@ -45,7 +51,15 @@
       <span class="deadline">{{
         ad.application_deadline.substring(0, 10)
       }}</span>
-      <span clas="rel">Relevans: {{ (ad.relevance * 100).toFixed() }}%</span>
+      <span *ngIf="ad.relevance > 0.8" class="rel rel-high"
+        >Relevans: {{ (ad.relevance * 100).toFixed() }}%</span
+      >
+      <span *ngIf="ad.relevance < 0.8 && ad.relevance > 0.5" class="rel rel-mid"
+        >Relevans: {{ (ad.relevance * 100).toFixed() }}%</span
+      >
+      <span *ngIf="ad.relevance < 0.5" class="rel rel-low"
+        >Relevans: {{ (ad.relevance * 100).toFixed() }}%</span
+      >
     </div>
 
     <mat-card-header>

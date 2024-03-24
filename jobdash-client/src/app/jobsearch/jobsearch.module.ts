@@ -10,6 +10,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatTabsModule } from '@angular/material/tabs';
 
 @NgModule({
   declarations: [SearchCardComponent, JobadComponent],
@@ -23,6 +24,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatButtonModule,
     MatGridListModule,
     MatDialogModule,
+    MatTabsModule,
   ],
   exports: [SearchCardComponent],
 })
